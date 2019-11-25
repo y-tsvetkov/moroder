@@ -1,0 +1,700 @@
+<?xml version="1.0"?>
+
+<robot name="moroder">
+  <link name="body_link">
+    <visual>
+      <geometry>
+        <box size = "0.031 0.228 0.035" />
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 .8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size = "0.031 0.228 0.035"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.676"/>
+      <inertia ixx="0.00352" ixy="0.0" ixz="0.0" iyy="0.0005648" iyz="0.0" izz="0.003704"/>
+      <!--inertia ixx="0.00352" ixy="0.003704" ixz="0.0005648" iyy="0.0005648" iyz="0.00352" izz="0.003704"/!-->
+      
+    </inertial>
+  </link>
+
+<link name="head">
+    <visual>
+      <geometry>
+        <box size = "0.015 0.015 0.015" />
+      </geometry>
+      <material name="griin">
+        <color rgba="0 .8 0 1"/>
+      </material>
+    </visual>
+   <inertial>
+      <mass value="0.001"/>
+    <inertia ixx="0.000007" ixy="0.0" ixz="0.0" iyy="0.000002" iyz="0.0" izz="0.000005"/>
+    </inertial>
+  </link>
+
+
+
+
+
+
+
+
+
+
+
+ <link name="coxaFR">
+    <visual>
+      <geometry>
+        <box size = "0.027 0.02 0.02" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="0.0135 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size = "0.027 0.01 0.01"/>
+      </geometry>
+    <origin xyz="0.0135 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.009"/>
+      <inertia ixx="0.00004567" ixy="0.0" ixz="0.0" iyy="0.00001743" iyz="0.0" izz="0.00003989"/>
+    </inertial>
+  </link>
+
+  <link name="pauldronFR">
+    <visual>
+      <geometry>
+        <box size = "0.042 0.061 0.047" />
+      </geometry>
+      <material name="grei">
+        <color rgba=".3 .3 .3 1"/>
+      </material>
+    <origin xyz="0.021 0.006 -0.01"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0458 0.0614 0.0556"/>
+      </geometry>
+    <origin xyz="0.02293 0.02119 -0.0030585"/>
+    </collision!-->
+    <inertial>
+      <mass value="0.150"/>
+      <inertia ixx="0.0001134" ixy="0.0" ixz="0.0" iyy="0.0009175" iyz="0.0" izz="0.000999"/>
+    </inertial>
+  </link>
+
+  <link name="femurFR">
+    <visual>
+      <geometry>
+        <box size = "0.039 0.0225 0.0366" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="0 0 -0.0183"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0225 0.0225 0.07525" />
+      </geometry>
+    <origin xyz="0 0 -0.0684835"/>
+    </collision!-->
+    <inertial>
+      <mass value="0.029"/>
+      <inertia ixx="0.0001282" ixy="0.0" ixz="0.0" iyy="0.0001278" iyz="0.0" izz="0.0000407"/>
+    </inertial>
+  </link>
+
+<link name="tibiaFR">
+    <visual>
+      <geometry>
+        <box size = "0.0125 0.0125 0.06" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="0 0 -0.03"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0125 0.0125 0.09"/>
+      </geometry>
+    <origin xyz="0 0 -0.045"/>
+    </collision-->
+    <inertial>
+      <mass value="0.022"/>
+      <inertia ixx="0.0002648" ixy="0.0" ixz="0.0" iyy="0.0002634" iyz="0.0" izz="0.0000162"/>
+    </inertial>
+  </link>
+
+  <link name="end_effectorFR">
+    <visual>
+      <geometry>
+        <sphere radius = "0.01" />
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 .8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius = "0.01" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.022"/>
+      <inertia ixx="0.0002648" ixy="0.0" ixz="0.0" iyy="0.0002634" iyz="0.0" izz="0.0000162"/>
+    </inertial>
+    <contact>
+			<friction_anchor/>
+			<stiffness value="3000.0"/>
+			<damping value="1000.0"/>
+			<spinning_friction value=".01"/>
+			<lateral_friction value="9"/>
+		</contact>
+  </link>
+
+<joint name="coxa_linkFR" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="body_link"/>
+    <child link="coxaFR"/>
+    <limit effort="999" lower="-0.1" upper="0.1" velocity="5,233333333"/>
+    <origin xyz="0.0155 0.114 0.0175"/>
+</joint>
+
+<joint name="pauldron_linkFR" type="revolute">
+<axis xyz="1 0 0"/>
+    <limit effort="999" lower="-1" upper="1" velocity="5,233333333"/>
+    <parent link="coxaFR"/>
+    <child link="pauldronFR"/>
+    <origin xyz="0.027 0 0"/>
+  </joint>
+
+<joint name="tibia_linkFR" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="999" lower="-0" upper="2" velocity="5,233333333"/>
+    <parent link="femurFR"/>
+    <child link="tibiaFR"/>
+    <origin xyz="0 0 -0.03"/>
+  </joint>
+
+<joint name="femur_linkFR" type="fixed">
+    <parent link="pauldronFR"/>
+    <child link="femurFR"/>
+<origin xyz="0.021 0 -0.0335"/>
+  </joint>
+
+<joint name="end_linkFR" type="fixed">
+    <parent link="tibiaFR"/>
+    <child link="end_effectorFR"/>
+    <origin xyz="0 0 -0.06"/>
+  </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <link name="coxaBR">
+    <visual>
+      <geometry>
+        <box size = "0.027 0.02 0.02" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="0.0135 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size = "0.027 0.01 0.01"/>
+      </geometry>
+    <origin xyz="0.0135 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.009"/>
+      <inertia ixx="0.00004567" ixy="0.0" ixz="0.0" iyy="0.00001743" iyz="0.0" izz="0.00003989"/>
+    </inertial>
+  </link>
+
+  <link name="pauldronBR">
+    <visual>
+      <geometry>
+        <box size = "0.042 0.061 0.047" />
+      </geometry>
+      <material name="grei">
+        <color rgba=".3 .3 .3 1"/>
+      </material>
+    <origin xyz="0.021 0.006 -0.01"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0458 0.0614 0.0556"/>
+      </geometry>
+    <origin xyz="0.02293 0.02119 -0.0030585"/>
+    </collision!-->
+    <inertial>
+      <mass value="0.150"/>
+      <inertia ixx="0.0001134" ixy="0.0" ixz="0.0" iyy="0.0009175" iyz="0.0" izz="0.000999"/>
+    </inertial>
+  </link>
+
+  <link name="femurBR">
+    <visual>
+      <geometry>
+        <box size = "0.039 0.0225 0.0366" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="0 0 -0.0183"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0225 0.0225 0.07525" />
+      </geometry>
+    <origin xyz="0 0 -0.0684835"/>
+    </collision!-->
+    <inertial>
+      <mass value="0.029"/>
+      <inertia ixx="0.0001282" ixy="0.0" ixz="0.0" iyy="0.0001278" iyz="0.0" izz="0.0000407"/>
+    </inertial>
+  </link>
+
+<link name="tibiaBR">
+    <visual>
+      <geometry>
+        <box size = "0.0125 0.0125 0.06" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="0 0 -0.03"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0125 0.0125 0.09"/>
+      </geometry>
+    <origin xyz="0 0 -0.045"/>
+    </collision-->
+    <inertial>
+      <mass value="0.022"/>
+      <inertia ixx="0.0002648" ixy="0.0" ixz="0.0" iyy="0.0002634" iyz="0.0" izz="0.0000162"/>
+    </inertial>
+  </link>
+
+  <link name="end_effectorBR">
+    <visual>
+      <geometry>
+        <sphere radius = "0.01" />
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 .8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius = "0.01" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.022"/>
+      <inertia ixx="0.0002648" ixy="0.0" ixz="0.0" iyy="0.0002634" iyz="0.0" izz="0.0000162"/>
+    </inertial>
+    <contact>
+			<friction_anchor/>
+			<stiffness value="3000.0"/>
+			<damping value="1000.0"/>
+			<spinning_friction value=".01"/>
+			<lateral_friction value="9"/>
+		</contact>
+  </link>
+
+<joint name="coxa_linkBR" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="body_link"/>
+    <child link="coxaBR"/>
+    <limit effort="999" lower="-0.1" upper="0.1" velocity="5,233333333"/>
+    <origin xyz="0.0155 -0.114 0.0175"/>
+</joint>
+
+<joint name="pauldron_linkBR" type="revolute">
+<axis xyz="1 0 0"/>
+    <limit effort="999" lower="-1" upper="1" velocity="5,233333333"/>
+    <parent link="coxaBR"/>
+    <child link="pauldronBR"/>
+    <origin xyz="0.027 0 0"/>
+  </joint>
+
+<joint name="tibia_linkBR" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="999" lower="-0" upper="2" velocity="5,233333333"/>
+    <parent link="femurBR"/>
+    <child link="tibiaBR"/>
+    <origin xyz="0 0 -0.03"/>
+  </joint>
+
+<joint name="femur_linkBR" type="fixed">
+    <parent link="pauldronBR"/>
+    <child link="femurBR"/>
+<origin xyz="0.021 0 -0.0335"/>
+  </joint>
+
+<joint name="end_linkBR" type="fixed">
+    <parent link="tibiaBR"/>
+    <child link="end_effectorBR"/>
+    <origin xyz="0 0 -0.06"/>
+  </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+  <link name="coxaFL">
+    <visual>
+      <geometry>
+        <box size = "0.027 0.02 0.02" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="-0.0135 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size = "0.027 0.01 0.01"/>
+      </geometry>
+    <origin xyz="-0.0135 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.009"/>
+      <inertia ixx="0.00004567" ixy="0.0" ixz="0.0" iyy="0.00001743" iyz="0.0" izz="0.00003989"/>
+    </inertial>
+  </link>
+
+  <link name="pauldronFL">
+    <visual>
+      <geometry>
+        <box size = "0.042 0.061 0.047" />
+      </geometry>
+      <material name="grei">
+        <color rgba=".3 .3 .3 1"/>
+      </material>
+    <origin xyz="0.021 0.006 -0.01"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0458 0.0614 0.0556"/>
+      </geometry>
+    <origin xyz="0.02293 0.02119 -0.0030585"/>
+    </collision!-->
+    <inertial>
+      <mass value="0.150"/>
+      <inertia ixx="0.0001134" ixy="0.0" ixz="0.0" iyy="0.0009175" iyz="0.0" izz="0.000999"/>
+    </inertial>
+  </link>
+
+  <link name="femurFL">
+    <visual>
+      <geometry>
+        <box size = "0.039 0.0225 0.0366" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="0 0 -0.0183"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0225 0.0225 0.07525" />
+      </geometry>
+    <origin xyz="0 0 -0.0684835"/>
+    </collision!-->
+    <inertial>
+      <mass value="0.029"/>
+      <inertia ixx="0.0001282" ixy="0.0" ixz="0.0" iyy="0.0001278" iyz="0.0" izz="0.0000407"/>
+    </inertial>
+  </link>
+
+<link name="tibiaFL">
+    <visual>
+      <geometry>
+        <box size = "0.0125 0.0125 0.06" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="0 0 -0.03"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0125 0.0125 0.09"/>
+      </geometry>
+    <origin xyz="0 0 -0.045"/>
+    </collision-->
+    <inertial>
+      <mass value="0.022"/>
+      <inertia ixx="0.0002648" ixy="0.0" ixz="0.0" iyy="0.0002634" iyz="0.0" izz="0.0000162"/>
+    </inertial>
+  </link>
+
+  <link name="end_effectorFL">
+    <visual>
+      <geometry>
+        <sphere radius = "0.01" />
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 .8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius = "0.01" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.022"/>
+      <inertia ixx="0.0002648" ixy="0.0" ixz="0.0" iyy="0.0002634" iyz="0.0" izz="0.0000162"/>
+    </inertial>
+    <contact>
+			<friction_anchor/>
+			<stiffness value="3000.0"/>
+			<damping value="1000.0"/>
+			<spinning_friction value=".01"/>
+			<lateral_friction value="9"/>
+		</contact>
+  </link>
+
+<joint name="coxa_linkFL" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="body_link"/>
+    <child link="coxaFL"/>
+    <limit effort="999" lower="-0.1" upper="0.1" velocity="5,233333333"/>
+    <origin xyz="-0.0155 0.114 0.0175"/>
+</joint>
+
+<joint name="pauldron_linkFL" type="revolute">
+<axis xyz="1 0 0"/>
+    <limit effort="999" lower="-1" upper="1" velocity="5,233333333"/>
+    <parent link="coxaFL"/>
+    <child link="pauldronFL"/>
+    <origin xyz="-0.069 0 0"/>
+  </joint>
+
+<joint name="tibia_linkFL" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="999" lower="-0" upper="2" velocity="5,233333333"/>
+    <parent link="femurFL"/>
+    <child link="tibiaFL"/>
+    <origin xyz="0 0 -0.03"/>
+  </joint>
+
+<joint name="femur_linkFL" type="fixed">
+    <parent link="pauldronFL"/>
+    <child link="femurFL"/>
+<origin xyz="0.021 0 -0.0335"/>
+  </joint>
+
+<joint name="end_linkFL" type="fixed">
+    <parent link="tibiaFL"/>
+    <child link="end_effectorFL"/>
+    <origin xyz="0 0 -0.06"/>
+  </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <link name="coxaBL">
+    <visual>
+      <geometry>
+        <box size = "0.027 0.02 0.02" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="-0.0135 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size = "0.027 0.01 0.01"/>
+      </geometry>
+    <origin xyz="-0.0135 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.009"/>
+      <inertia ixx="0.00004567" ixy="0.0" ixz="0.0" iyy="0.00001743" iyz="0.0" izz="0.00003989"/>
+    </inertial>
+  </link>
+
+  <link name="pauldronBL">
+    <visual>
+      <geometry>
+        <box size = "0.042 0.061 0.047" />
+      </geometry>
+      <material name="grei">
+        <color rgba=".3 .3 .3 1"/>
+      </material>
+    <origin xyz="0.021 0.006 -0.01"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0458 0.0614 0.0556"/>
+      </geometry>
+    <origin xyz="0.02293 0.02119 -0.0030585"/>
+    </collision!-->
+    <inertial>
+      <mass value="0.150"/>
+      <inertia ixx="0.0001134" ixy="0.0" ixz="0.0" iyy="0.0009175" iyz="0.0" izz="0.000999"/>
+    </inertial>
+  </link>
+
+  <link name="femurBL">
+    <visual>
+      <geometry>
+        <box size = "0.039 0.0225 0.0366" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="0 0 -0.0183"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0225 0.0225 0.07525" />
+      </geometry>
+    <origin xyz="0 0 -0.0684835"/>
+    </collision!-->
+    <inertial>
+      <mass value="0.029"/>
+      <inertia ixx="0.0001282" ixy="0.0" ixz="0.0" iyy="0.0001278" iyz="0.0" izz="0.0000407"/>
+    </inertial>
+  </link>
+
+<link name="tibiaBL">
+    <visual>
+      <geometry>
+        <box size = "0.0125 0.0125 0.06" />
+      </geometry>
+      <material name="dblue">
+        <color rgba="0 0 .5 1"/>
+      </material>
+    <origin xyz="0 0 -0.03"/>
+    </visual>
+    <!--collision>
+      <geometry>
+        <box size = "0.0125 0.0125 0.09"/>
+      </geometry>
+    <origin xyz="0 0 -0.045"/>
+    </collision-->
+    <inertial>
+      <mass value="0.022"/>
+      <inertia ixx="0.0002648" ixy="0.0" ixz="0.0" iyy="0.0002634" iyz="0.0" izz="0.0000162"/>
+    </inertial>
+  </link>
+
+  <link name="end_effectorBL">
+    <visual>
+      <geometry>
+        <sphere radius = "0.01" />
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 .8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius = "0.01" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.022"/>
+      <inertia ixx="0.0002648" ixy="0.0" ixz="0.0" iyy="0.0002634" iyz="0.0" izz="0.0000162"/>
+    </inertial>
+    <contact>
+			<friction_anchor/>
+			<stiffness value="3000.0"/>
+			<damping value="1000.0"/>
+			<spinning_friction value=".01"/>
+			<lateral_friction value="9"/>
+		</contact>
+  </link>
+
+<joint name="coxa_linkBL" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="body_link"/>
+    <child link="coxaBL"/>
+    <limit effort="999" lower="-0.1" upper="0.1" velocity="5,233333333"/>
+    <origin xyz="-0.0155 -0.114 0.0175"/>
+</joint>
+
+<joint name="pauldron_linkBL" type="revolute">
+<axis xyz="1 0 0"/>
+    <limit effort="999" lower="-1" upper="1" velocity="5,233333333"/>
+    <parent link="coxaBL"/>
+    <child link="pauldronBL"/>
+    <origin xyz="-0.069 0 0"/>
+  </joint>
+
+<joint name="tibia_linkBL" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="999" lower="-0" upper="2" velocity="5,233333333"/>
+    <parent link="femurBL"/>
+    <child link="tibiaBL"/>
+    <origin xyz="0 0 -0.03"/>
+  </joint>
+
+<joint name="femur_linkBL" type="fixed">
+    <parent link="pauldronBL"/>
+    <child link="femurBL"/>
+<origin xyz="0.021 0 -0.0335"/>
+  </joint>
+
+<joint name="end_linkBL" type="fixed">
+    <parent link="tibiaBL"/>
+    <child link="end_effectorBL"/>
+    <origin xyz="0 0 -0.06"/>
+  </joint>
+
+
+<joint name="head_link" type="fixed">
+    <parent link="body_link"/>
+    <child link="head"/>
+<origin xyz="0 0.104 0.015"/>
+  </joint>
+
+
+</robot>
+
