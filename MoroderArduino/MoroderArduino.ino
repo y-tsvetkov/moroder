@@ -144,7 +144,7 @@ void loop() {
   
   //Inputs correspond to Pitch, Roll, dPitch/dt, dRoll/dt
   //TODO: Add the orientation term in the right place (may need to be inverted)
-  float inputs[6] = { -orientationData.orientation.y * 3.14 / 180, orientationData.orientation.z * 3.14 / 180, angVelocityData.gyro.y * 3.14 / 180, -angVelocityData.gyro.z * 3.14 / 180, timeSteps}; 
+  float inputs[6] = { -orientationData.orientation.y * 3.14 / 180, orientationData.orientation.z * 3.14 / 180, orientationData.orientation.x*3.14/180, angVelocityData.gyro.y * 3.14 / 180, -angVelocityData.gyro.z * 3.14 / 180, timeSteps}; 
   float angles[12]; 
   nn.compute(inputs, angles);
   
