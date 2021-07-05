@@ -7,7 +7,7 @@ import time
 import pickle
 from multiprocessing import Pool
 import multiprocessing
-import funcs 
+import functions
 
 # Important: multiprocessing requires the code to be executed in parallel to be in __main__ 
 # this is why it is required to split the code in a main script (this) and a function script (cma_functions.py)
