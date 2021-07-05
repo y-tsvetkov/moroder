@@ -7,12 +7,9 @@ This repository contains everything needed to simulate and control Maah in Gazeb
 ```
 .
 |
-+-- moroder/           PyBullet
-|   +--launch             
-|   +--meshes
-|   +--urdf
++-- MoroderArduino/        Arduino code to run on real robot
 |
-+-- maah_control/               scripts and launch files for controlling Maah
++-- moroder/               PyBullet simulation environment
 |   +-- launch/
 |   +-- scripts/
 |
