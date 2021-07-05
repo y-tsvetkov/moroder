@@ -1,2 +1,2 @@
-# moroder
-ES-trained OpenAI quadruped robot env
+# Moroder
+## Competition repo
