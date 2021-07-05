@@ -1,4 +1,4 @@
-# За провеждане на експерименти с оптимизация, този скрипт трябва да бъде активиран.
+# Script for training sinusoidal neural networks
 
 import cma
 import tensorflow as tf
@@ -9,18 +9,18 @@ from multiprocessing import Pool
 import multiprocessing
 import funcs 
 
-# Важно: библиотеката за паралелизация изисква целия код да бъде в '__main__'. 
-# Това е причината всички вътрешни функции да бъдат поставени в отделен файл.
+# Important: multiprocessing requires the code to be executed in parallel to be in __main__ 
+# this is why it is required to split the code in a main script (this) and a function script (cma_functions.py)
 
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__' :
   
-  # стартиране на групата паралелни работници 
+  # starting parallel workers 
   multiprocessing.set_start_method('spawn', True)
   workers = Pool(funcs.num_workers)
 
-  # фаза на трениране (активиране на Tensorflow graph, активиране на CMA-ES алгоритъм
+  # training phase (Tensorflow graph activation, performing CMA-ES optimisation)
   with funcs.sess.as_default() :
     funcs.sess.run(tf.compat.v1.global_variables_initializer())
     saver = tf.compat.v1.train.Saver()
@@ -30,25 +30,24 @@ if __name__ == '__main__' :
    popsize=funcs.NPOPULATION) 
   cma_history = funcs.solve(cma,workers)
 
-  # За тест на крайната походка се зареждат параметрите и 
-  # максималната награда при поколение (статистически данни)
+  # loading learned gait after training
   with open(funcs.save_dir, 'rb') as f:
     bestparams = pickle.load(f)
   with open(funcs.max_fit_dir, 'rb') as f:
     history = pickle.load(f)
 
-  # тест на походката
+  # testing learned gait
   funcs.env[0].reset()
   time.sleep(2)
   fitness = funcs.fitness_func(bestparams,True)
 
-  # показване на графиката най-голяма награда/време
+  # showing reward/time graph
   plt.plot(history)
   plt.show()
 
-  # показване на параметри във функция като С++ масив
+  # showing weights and biases as a C++ array
   print('{',end = '')
   for param in bestparams:
     print(param, ",", end = '')
   print('}')
-  print("Награда при тест:",fitness)
+  print("Testing reward:",fitness)
