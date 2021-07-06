@@ -171,7 +171,7 @@ void loop() {
       data [i] = lbounds[i];
   }
   
-  // фиксиране на бедрените серво мотори в неутрална позиция;
+  // adding pi/2 to coxa motor commands, since NN returns commands between -pi/2 and pi/2
   for (int i = 0; i < 12; i++) {
       if (i % 3 == 1)
         data[i] += PI / 2; 
