@@ -173,7 +173,7 @@ def solve(solver,worker_pool):
     # first element is best parameters, second element is best fitness for these parameters
     result = solver.result()
 
-    # добавяне на данни към директориите
+    # adding data to directories
     history.append(result[1])
     maxfit.append(max(fitness_list))
     minfit.append(min(fitness_list))
@@ -185,12 +185,12 @@ def solve(solver,worker_pool):
       testfitness = fitness_func(result[0],render=False)
       testmaxfitness = fitness_func(solutions[fitness_list.index(max(fitness_list),False)])    
   
-      print("Глобална награда на поколение", (j+1), result[1])
-      print('макс. награда:', max(fitness_list),'мин. награда:', min(fitness_list),
-      'средна награда:', sum(fitness_list)/len(fitness_list))
-      print('Стандартно отклонение:', stdev(fitness_list))
-      print('Време между отчитания:', time.time() - t)
-      print('Макс. време на сим. ход:', env[0].ep_limit,'Наказание за падане:', env[0].penalty_for_falling, 'Макс. стр. сила:', env[0].perturb_high)
+      print("Best reward so far", (j+1), result[1])
+      print('Best reward this generation:', max(fitness_list),'Min reward:', min(fitness_list),
+      'Avg reward:', sum(fitness_list)/len(fitness_list))
+      print('St. dev.:', stdev(fitness_list))
+      print('Time taken:', time.time() - t)
+      print('Current episode limit:', env[0].ep_limit,'Fall penalty:', env[0].penalty_for_falling, 'Max perturbation:', env[0].perturb_high)
 
       # increasing difficulty of simulation at each generations_per_diagnostics generations:
       for id in range(num_workers) :
@@ -200,8 +200,8 @@ def solve(solver,worker_pool):
          env[id].perturb_high = np.clip(env[id].perturb_high+max_perturb_bounds[0]/600, 0, max_perturb_bounds[0])
          env[id].orient_low = np.clip(env[id].orient_low+max_orient_bounds[1]/300,0,max_orient_bounds[1])
          env[id].orient_high = np.clip(env[id].orient_high+max_orient_bounds[0]/300,0,max_orient_bounds[0])
-      print('Тествана награда за глобални най-добри параметри:',testfitness)
-      print('Тествана награда за най-добри параметри на поколение:', testmaxfitness)
+      print('Reward for best parameters so far:',testfitness)
+      print('Reward for best parameters this gen:', testmaxfitness)
 
       # saving simulation data 
       with open(save_dir, 'wb') as f: 
