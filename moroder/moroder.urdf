@@ -1,11 +1,10 @@
 <?xml version="1.0" ?>
 
-<!--Този файл съдържа информация за симулационния модел на робота.
-    Компонентите са описани в средния ред: тяло, глава (ориентир за посока),
-    преден десен, заден десен, преден ляв и заден ляв крак, след което са описани
-    всички статични връзки между компонентите. Компонентите на всеки крак са в следната
-    последователност: бедро, бедрена кост, подбедрица, стъпало, подвижни връзки между елементите
-    (мотори). -->
+<!--This file describes the simulation model of the robot.
+    Components are described in the following order: body, head (for orientational purposes),
+    legs (front right, hind right, front left, hind left), after which all connections 
+    and joints are described. Each leg's components are described in the following order:
+    coxa, femur, tibia, foot, leg joints.-->
 
 <robot name="moroder">
   <link name="body_link">
