@@ -1,9 +1,6 @@
 # Moroder - Competition Repo
 
 ![image](https://drive.google.com/uc?export=view&id=1PXABBPiZ2fx9QobGOUr3dF77Z0-b3ug_)
-<div align="center">
-  <a href="https://drive.google.com/uc?export=view&id=1PXABBPiZ2fx9QobGOUr3dF77Z0-b3ug_" alt="UZX-n_21z3Q"></a>
-</div>
 ![image](https://drive.google.com/uc?export=view&id=1913oZeBZPBNiUuk8gu3ZSbLBA2l_VQtG)
 
 This GitHub repo hosts all code used in the paper "Training quadruped robots to walk via evolution strategies and sinusoidal activation functions".
