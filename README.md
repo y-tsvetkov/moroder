@@ -7,8 +7,6 @@ This repository contains everything needed to simulate and control Maah in Gazeb
 ```
 .
 |
-+-- moroder_hardware/              Fusion 360 design of robot
-|
 +-- MoroderArduino/        Arduino code to run on real robot
 |
 +-- moroder/               PyBullet simulation environment
@@ -19,3 +17,7 @@ This repository contains everything needed to simulate and control Maah in Gazeb
 |
 .
 ```
+# Hardware
+The Fusion 360 design can be found at the following Google Drive link:
+
+## https://drive.google.com/file/d/17Si-72igXzpSMtHh0uWlVNcXRKu1gA5d/view?usp=sharing
