@@ -109,7 +109,7 @@ class MoroderEnvNOIT(gym.Env):
   # Reward calculation in accordance to the definition in the paper:
   def calculateReward(self):
 
-    # изчисляване на средната скорост на робота за целия период на един сим. ход
+    # calculating average speed over episode length
     avgLinVel = self.LinVelSum/self.ep_limit 
 
     # terms for deviation to the side on the X axis (x_factor), deviation in angles (angle_factor),
@@ -240,7 +240,7 @@ class MoroderEnvNOIT(gym.Env):
     # reshaping NN output if trotting is desired
     if self.trot:
       if len(nn_outputs)*2 != self.numJoints:
-        raise Exception("За експерименти с походка тип тръс, полученият масив трябва да има брой на елементи, половината от броя на мотори.")
+        raise Exception("The NN outputs are more than half the number of leg motors (trotting is enabled). Please check simulation parameters.")
       action = np.concatenate((nn_outputs[:3],nn_outputs[3:],nn_outputs[3:],nn_outputs[:3]))
     else:
       action = nn_outputs
