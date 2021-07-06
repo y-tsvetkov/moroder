@@ -71,7 +71,7 @@ for i in range(num_workers) :
     client.append(p.connect(p.DIRECT))
     p.setPhysicsEngineParameter(enableConeFriction=0, physicsClientId = client[i])
     p.setAdditionalSearchPath(pybullet_data.getDataPath())
-    env.append(gym.make('MoroderEnvNOIT-v0', physics_client=client[i], ep_limit = 1000, 
+    env.append(gym.make('MoroderEnv-v0', physics_client=client[i], ep_limit = 1000, 
     torque_factor = 0.0,angle_factor = 0.0, x_factor=0, time_factor = 0.5, 
     penalty_for_falling = 0.01, add_noise = True, perturb_bounds = [0,0], 
     conventional_nn = False, rect_field = False, height_field = True, field_range = 0.01, randomise_orient = True, include_orient = True, 
