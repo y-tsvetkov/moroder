@@ -5,8 +5,8 @@
 
 '''
 register(
-    id='MoroderEnvNOIT-v0',
-    entry_point='gym.envs.morodernoit:MoroderEnvNOIT',
+    id='MoroderEnv-v0',
+    entry_point='gym.envs.my_collection.moroder_env:MoroderEnv',
     )
 '''
 import gym
@@ -20,7 +20,7 @@ from pybullet_envs.bullet import bullet_client
 import pybullet_data
 import time
 
-class MoroderEnvNOIT(gym.Env):
+class MoroderEnv(gym.Env):
 
   # generating a field of rough terrain consisting of rectangles (parallelepipeds) of arbitrary heights.
   # The field has a width of field_width and has num_width_rects rectangles widthwise,
