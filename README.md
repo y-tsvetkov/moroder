@@ -12,7 +12,7 @@ This repository contains everything needed to simulate and control Maah in Gazeb
 |
 +-- MoroderArduino/        Arduino code to run on real robot
 |
-+-- moroder/               PyBullet simulation environment
++-- moroder_env/               PyBullet simulation environment
 |
 +-- optimise_cma.py         main training and optimisation script
 |
