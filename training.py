@@ -22,16 +22,11 @@ min_fit_dir = 'minfit.pkl'
 # setting experiment parameters
 trot =  False
 out_size = 6 if trot else 12
-
 hlayer_size = 8  
-
-sigma = 0.2 # standard deviation of initial generation
-
+sigma = 0.2
 NPOPULATION = 250
 MAX_ITERATION = 5000
-
 num_workers = 1 # number of parallel processes (workers) - 1 for GUI training or safer non-GUI training, number of CPU cores for fastest training
-
 rollouts_per_param = 2 # tests per single parameter set of population - bigger than 2 recommended for tests with randomisation
  
 # linearly increasing of particular parameters helps learning stability and robustness
@@ -71,12 +66,30 @@ for i in range(num_workers) :
     client.append(p.connect(p.DIRECT))
     p.setPhysicsEngineParameter(enableConeFriction=0, physicsClientId = client[i])
     p.setAdditionalSearchPath(pybullet_data.getDataPath())
-    env.append(gym.make('MoroderEnv-v0', physics_client=client[i], ep_limit = 1000, 
-    torque_factor = 0.0,angle_factor = 0.0, x_factor=0, time_factor = 0.5, 
-    penalty_for_falling = 0.01, add_noise = True, perturb_bounds = [0,0], 
-    conventional_nn = False, rect_field = False, height_field = True, field_range = 0.01, randomise_orient = True, include_orient = True, 
-    randomise_torque = True,rew_factor = 2000, trot = trot, 
-    randomise_ang_vel = True, time_only = False,  orient_bounds = [0,0]))
+    env.append(gym.make(
+      'MoroderEnv-v0', 
+      physics_client=client[i], 
+      ep_limit = 1000, 
+      torque_factor = 0.0,
+      angle_factor = 0.0, 
+      x_factor=0, 
+      time_factor = 0.5, 
+      penalty_for_falling = 0.01, 
+      add_noise = True, 
+      perturb_bounds = [0,0], 
+      conventional_nn = False, 
+      rect_field = False, 
+      height_field = True, 
+      field_range = 0.01, 
+      randomise_orient = True, 
+      include_orient = True, 
+      randomise_torque = True,
+      rew_factor = 2000, 
+      trot = trot, 
+      randomise_ang_vel = True, 
+      time_only = False,  
+      orient_bounds = [0,0]
+    ))
     
     # creating TensorFlow graph:
     # input layer
@@ -103,9 +116,9 @@ for i in range(num_workers) :
     assignop_b0.append(tf.assign(b0[i],b0_placeholder[i]))
 
 # getting number of optimisation parameters
-w_elements = hlayer_size*env[0].observation_params
-w0_elements = hlayer_size*out_size
-NPARAMS = hlayer_size+w_elements+w0_elements +out_size
+w_elements = hlayer_size * env[0].observation_params
+w0_elements = hlayer_size * out_size
+NPARAMS = hlayer_size + w_elements + w0_elements + out_size
 sess = tf.compat.v1.Session()
 
 # calculating fitness for a single parameter set of a population of generation
@@ -116,10 +129,10 @@ def fitness_func(paramlist, render = False):
   id = random.randrange(num_workers) 
 
   # receiving parameters
-  w_newvals = np.reshape(np.round(paramlist[0:w_elements]*100)*0.01,(hlayer_size,env[id].observation_params)) #formerly int32
-  b_newvals = np.reshape(paramlist[w_elements:w_elements+hlayer_size],(hlayer_size,1))
-  w0_newvals = np.reshape(paramlist[w_elements+hlayer_size:w_elements+hlayer_size+w0_elements],(out_size,hlayer_size)) 
-  b0_newvals = np.reshape(paramlist[w_elements+hlayer_size+w0_elements:],(out_size,1)) 
+  w_newvals = np.reshape(np.round(paramlist[0:w_elements] * 100) * 0.01, (hlayer_size, env[id].observation_params)) #formerly int32
+  b_newvals = np.reshape(paramlist[w_elements:w_elements + hlayer_size], (hlayer_size, 1))
+  w0_newvals = np.reshape(paramlist[w_elements+hlayer_size:w_elements + hlayer_size + w0_elements], (out_size,hlayer_size)) 
+  b0_newvals = np.reshape(paramlist[w_elements+hlayer_size + w0_elements:], (out_size, 1)) 
   sess.run(assignop_w[id], feed_dict = {w_placeholder[id]: w_newvals})
   sess.run(assignop_w0[id], feed_dict = {w0_placeholder[id]: w0_newvals})
   sess.run(assignop_b[id], feed_dict = {b_placeholder[id]: b_newvals})
@@ -136,14 +149,14 @@ def fitness_func(paramlist, render = False):
     while not env[id].isDone :
       act = sess.run(actout[id], feed_dict = {in_placeholder[id]: obs})
       act = np.reshape(act, (out_size,))
-      tempobs,rollouts[i],_,_ = env[id].step(act)
+      tempobs,rollouts[i], _, _ = env[id].step(act)
 
       # applying a delay on each timestep when testing to make simulation run in real time
       if render:
-        time.sleep(1/240)
+        time.sleep(1 / 240) #PyBullet timestep
 
-      obs = np.reshape(tempobs, (env[id].observation_params,1))
-  return (sum(rollouts)/len(rollouts))
+      obs = np.reshape(tempobs, (env[id].observation_params, 1))
+  return (sum(rollouts) / len(rollouts))
 
 # optimising a population according to a solver (in this case, CMA-ES)
 def solve(solver,worker_pool):
@@ -164,7 +177,7 @@ def solve(solver,worker_pool):
 
     # evaluating fitness in parallel for each solution
     for solution in solutions:
-      fitness_list.append(worker_pool.apply_async(fitness_func, (solution,False,)))
+      fitness_list.append(worker_pool.apply_async(fitness_func, (solution, False, )))
     
     fitness_list = [fit.get(timeout=None) for fit in fitness_list]
     solver.tell(fitness_list)
@@ -182,10 +195,10 @@ def solve(solver,worker_pool):
     if (j+1) % generations_per_diagnostics == 0:
 
       # testing of best parameters to verify that simulation is producing actually viable neural nets:      
-      testfitness = fitness_func(result[0],render=False)
-      testmaxfitness = fitness_func(solutions[fitness_list.index(max(fitness_list),False)])    
+      testfitness = fitness_func(result[0], render=False)
+      testmaxfitness = fitness_func(solutions[fitness_list.index(max(fitness_list), False)])    
   
-      print("Best reward so far", (j+1), result[1])
+      print("Best reward so far", (j + 1), result[1])
       print('Best reward this generation:', max(fitness_list),'Min reward:', min(fitness_list),
       'Avg reward:', sum(fitness_list)/len(fitness_list))
       print('St. dev.:', stdev(fitness_list))
@@ -194,12 +207,12 @@ def solve(solver,worker_pool):
 
       # increasing difficulty of simulation at each generations_per_diagnostics generations:
       for id in range(num_workers) :
-         env[id].ep_limit = np.clip(env[id].ep_limit+7,env[id].ep_limit,max_ep_limit)
-         env[id].penalty_for_falling = np.clip(env[id].penalty_for_falling+max_penalty/600,0,max_penalty)
-         env[id].perturb_low = np.clip(env[id].perturb_low+max_perturb_bounds[1]/600, 0, max_perturb_bounds[1])
-         env[id].perturb_high = np.clip(env[id].perturb_high+max_perturb_bounds[0]/600, 0, max_perturb_bounds[0])
-         env[id].orient_low = np.clip(env[id].orient_low+max_orient_bounds[1]/300,0,max_orient_bounds[1])
-         env[id].orient_high = np.clip(env[id].orient_high+max_orient_bounds[0]/300,0,max_orient_bounds[0])
+         env[id].ep_limit = np.clip(env[id].ep_limit + 7, env[id].ep_limit,max_ep_limit)
+         env[id].penalty_for_falling = np.clip(env[id].penalty_for_falling+max_penalty/600, 0, max_penalty)
+         env[id].perturb_low = np.clip(env[id].perturb_low + max_perturb_bounds[1]/600, 0, max_perturb_bounds[1])
+         env[id].perturb_high = np.clip(env[id].perturb_high + max_perturb_bounds[0]/600, 0, max_perturb_bounds[0])
+         env[id].orient_low = np.clip(env[id].orient_low + max_orient_bounds[1]/300, 0, max_orient_bounds[1])
+         env[id].orient_high = np.clip(env[id].orient_high + max_orient_bounds[0]/300, 0, max_orient_bounds[0])
       print('Reward for best parameters so far:',testfitness)
       print('Reward for best parameters this gen:', testmaxfitness)
 
@@ -209,11 +222,11 @@ def solve(solver,worker_pool):
       with open(history_dir, 'wb') as f:  
         pickle.dump(history, f)
       with open(max_fit_dir,"wb") as f:
-        pickle.dump(maxfit,f)
+        pickle.dump(maxfit, f)
       with open(min_fit_dir,"wb") as f:
-        pickle.dump(minfit,f)
+        pickle.dump(minfit, f)
       with open(avg_fit_dir,"wb") as f:
-        pickle.dump(avgfit,f)
+        pickle.dump(avgfit, f)
       print("Model saved!" , '\n')
       
   print("Local optimum:\n", result[0])
