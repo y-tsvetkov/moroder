@@ -14,9 +14,9 @@ This repository contains everything needed to simulate and control Maah in Gazeb
 |
 +-- moroder/               PyBullet simulation environment
 |
-+-- moroder_cma.py         main training and optimisation script
++-- optimise_cma.py         main training and optimisation script
 |
-+-- functions.py           functions for moroder_cma.py
++-- optimise_functions.py           functions for main script
 |
 .
 ```
