@@ -9,6 +9,7 @@ register(
     entry_point='gym.envs.my_collection.moroder_env:MoroderEnv',
     )
 '''
+
 import gym
 from gym import spaces, utils
 from gym.utils import seeding
@@ -71,7 +72,7 @@ class MoroderEnv(gym.Env):
   # simulation initialisation method that runs every time the simulation is rebuilt
   def initSim(self, robotVersion, terrain = "plane.urdf", conventional_nn = False):
 
-    # this array holds the IDs of connections that are joints
+    # this array holds the IDs of connections that are actuated joints
      self.joints = [0,1,3,5,6,8,10,11,13,15,16,18] 
 
      self.numJoints = len(self.joints)
@@ -87,7 +88,7 @@ class MoroderEnv(gym.Env):
        self.planeID = p.loadURDF("plane.urdf",physicsClientId=self.physicsClient) # flat plane
 
      # initialising robot for given position and orientation (latter is randomised during course correction training):
-     robot_init_pos = [0,0,0.15] # позиция
+     robot_init_pos = [0,0,0.15]
      if self.randomise_orient == True :
        robot_init_orient = p.getQuaternionFromEuler([0,0,random.uniform(1,0.1744)*random.choice(self.perturb_direction)],
        physicsClientId=self.physicsClient)
